@@ -161,7 +161,7 @@ class ConstraintsDialog:
                  font=("Arial", 10)).pack(pady=(0, 10))
         
         info_label = ttk.Label(parent, 
-                              text="e.g., Science, Mathematics, Humanities, Engineering, Arts, etc.\n"
+                              text="e.g., Performing Arts, Art, Media, DCC, Music etc.\n"
                               "Teachers can be assigned to faculties for better organization",
                               font=("Arial", 9, "italic"),
                               foreground="gray")
@@ -184,7 +184,7 @@ class ConstraintsDialog:
         
         # Populate with current faculty
         current_faculty = self.current_constraints.get('faculty', 
-                                                       ["Science", "Mathematics", "Humanities", "Languages", "Arts"])
+                                                       ["Performing Arts", "Art", "Media", "DCC", "Music"])
         
         for faculty in current_faculty:
             self.faculty_listbox.insert(tk.END, faculty)
@@ -203,7 +203,7 @@ class ConstraintsDialog:
     def add_faculty(self):
         """Add a new faculty"""
         faculty = simpledialog.askstring("New Faculty/Department", 
-                                        "Enter faculty/department name:\n(e.g., Science, Mathematics, Humanities)", 
+                                        "Enter faculty/department name:\n(e.g., Performing Arts, Art, Media, DCC, Music)", 
                                         parent=self.dialog)
         if faculty and faculty.strip():
             self.faculty_listbox.insert(tk.END, faculty.strip())
@@ -241,7 +241,7 @@ class ConstraintsDialog:
                  font=("Arial", 10)).pack(pady=(0, 10))
         
         info_label = ttk.Label(parent, 
-                              text="e.g., Level 1, Level 2, Beginner, Intermediate, Advanced, Year 1, Year 2, etc.\n"
+                              text="e.g., Level 1, Level 2. Level 3 etc.\n"
                               "Teachers can be assigned to specific courses/levels they teach",
                               font=("Arial", 9, "italic"),
                               foreground="gray")
@@ -363,9 +363,9 @@ class ConstraintsDialog:
         
         # Load existing groups or create defaults
         current_classes = self.current_constraints.get('classes', 
-                                                       ["T4A", "T4B", "T4C", "T4D", "T5A", "T5B", "T5C", "T5D"])
+                                                       ["L1A", "L2A", "L2B", "L2C", "L3A", "L3B", "L3C"])
         current_faculty = self.current_constraints.get('faculty', 
-                                                      ["Science", "Mathematics", "Humanities", "Languages", "Arts"])
+                                                      ["Performing Arts", "Art", "Media", "DCC", "Music"])
         
         # Get group configurations if they exist
         group_configs = self.current_constraints.get('group_configs', {})
@@ -406,7 +406,7 @@ class ConstraintsDialog:
                 current_faculty.append(self.faculty_listbox.get(i))
         else:
             current_faculty = self.current_constraints.get('faculty', 
-                                                          ["Science", "Mathematics", "Humanities", "Languages", "Arts"])
+                                                          ["Performing Arts", "Art", "Media", "DCC", "Music"])
         
         # Add English and Maths as faculty options for resit classes
         all_faculties = ['English', 'Maths'] + current_faculty
@@ -973,7 +973,7 @@ class ConstraintsDialog:
         
         # Populate with current classes
         current_classes = self.current_constraints.get('classes', 
-                                                       ["T4A", "T4B", "T4C", "T4D", "T5A", "T5B", "T5C", "T5D"])
+                                                       ["L1A", "L2A", "L2B", "L2C", "L3A", "L3B", "L3C"])
         
         for cls in current_classes:
             self.classes_listbox.insert(tk.END, cls)
@@ -1039,7 +1039,7 @@ class ConstraintsDialog:
                               "13:30-14:30", "14:40-15:40", "15:50-16:50"],
                 'days': ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"],
                 'group_day_off': {'A': 'Monday', 'B': 'Tuesday', 'C': 'Wednesday', 'D': 'Thursday'},
-                'classes': ["T4A", "T4B", "T4C", "T4D", "T5A", "T5B", "T5C", "T5D"],
+                'classes': ["L1A", "L2A", "L2B", "L2C", "L3A", "L3B", "L3C"],
                 'rooms': ["Room A101", "Room A102", "Room A103", "Room B201", "Room B202", 
                          "Room B203", "Room C301", "Room C302", "Room D401", "Room D402"]
             }
@@ -1939,7 +1939,7 @@ class TeacherInputDialog:
         self.edit_teacher = edit_teacher
         self.available_days = available_days or ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"]
         self.available_subjects = available_subjects or ["Maths", "English", "Tutorial", "PBL", "VOC"]
-        self.available_faculty = available_faculty or ["Science", "Mathematics", "Humanities"]
+        self.available_faculty = available_faculty or ["Performing Arts", "Art", "Media", "DCC", "Music"]
         self.available_courses = available_courses or ["Level 1", "Level 2", "Level 3"]
         
         self.dialog = tk.Toplevel(parent)
@@ -2114,22 +2114,21 @@ class SchedulerApp:
         # Initialize with default constraints
         self.constraints = {
             'requirements': {"Maths": 4, "English": 4, "VOC": 4, "PBL": 4, "Tutorial": 1},
-            'faculty': ["Science", "Mathematics", "Humanities", "Languages", "Arts"],
+            'faculty': ["Performing Arts", "Art", "Media", "DCC", "Music"],
             'courses': ["Level 1", "Level 2", "Level 3", "Level 4", "Level 5"],
             'time_slots': ["09:00-10:00", "10:10-11:10", "11:30-12:30", 
                           "13:30-14:30", "14:40-15:40", "15:50-16:50"],
             'days': ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"],
             'group_day_off': {'A': 'Monday', 'B': 'Tuesday', 'C': 'Wednesday', 'D': 'Thursday'},
-            'classes': ["T4A", "T4B", "T4C", "T4D", "T5A", "T5B", "T5C", "T5D"],
+            'classes': ["L1A", "L2A", "L2B", "L2C", "L3A", "L3B", "L3C"],
             'group_configs': {
-                'T4A': {'faculty': 'Science'},
-                'T4B': {'faculty': 'Mathematics'},
-                'T4C': {'faculty': 'Humanities'},
-                'T4D': {'faculty': 'Languages'},
-                'T5A': {'faculty': 'Arts'},
-                'T5B': {'faculty': 'Science'},
-                'T5C': {'faculty': 'Mathematics'},
-                'T5D': {'faculty': 'Humanities'}
+                'L1A': {'faculty': 'Faculty'},
+                'L2A': {'faculty': 'Faculty'},
+                'L2B': {'faculty': 'Faculty'},
+                'L2C': {'faculty': 'Faculty'},
+                'L3A': {'faculty': 'Faculty'},
+                'L3B': {'faculty': 'Faculty'},
+                'L3C': {'faculty': 'Faculty'},
             },
             'rooms': ["Room A101", "Room A102", "Room A103", "Room B201", "Room B202", 
                      "Room B203", "Room C301", "Room C302", "Room D401", "Room D402"],
